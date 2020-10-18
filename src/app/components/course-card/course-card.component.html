@@ -1,1 +1,36 @@
-<p>course-card works!</p>
+<div class="card course-card">
+    <div class="row aln-center">
+        <p class="course-card__title">
+            {{ course.title }}
+        </p>
+        <div class="course-card__stats ml-auto">
+            <span class="course-card__duration">
+                <span class="material-icons">access_time</span>
+                {{ course.duration }}
+            </span>
+            <span class="course-card__date">
+                <span class="material-icons">calendar_today</span>
+                {{ course.creationDate | date:'dd MMM, yyyy' }}
+            </span>
+        </div>
+    </div>
+    <div class="col-m row aln-center">
+        <p class="course-card__description">
+            {{ course.description }}
+        </p>
+        <div class="course-card__actions row aln-center">
+            <button
+              (click)="onEditClick()"
+              class="course-card__action button button--action button--hover-pointer">
+                <span class="material-icons">edit</span>
+                Edit
+            </button>
+            <button
+              (click)="onDeleteClick()"
+              class="course-card__action button button--action button--hover-pointer">
+                <span class="material-icons">delete</span>
+                Delete
+            </button>
+        </div>
+    </div>
+</div>

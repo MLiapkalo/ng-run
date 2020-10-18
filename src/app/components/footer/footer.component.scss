@@ -1,0 +1,18 @@
+@import '../../shared/styles/colours';
+@import '../../shared/styles/mixins';
+@import '../../shared/styles/layout-variables';
+@import '../../shared/styles/layout';
+
+.page-footer {
+    @include stripe($footer-height, $black-smoke);
+    position: fixed;
+    display: flex;
+    align-items: center;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    .copyrights {
+      color: $grey-smoke;
+    }
+}

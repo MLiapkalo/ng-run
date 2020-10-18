@@ -1,0 +1,14 @@
+@mixin stripe($height, $color) {
+    display: block;
+    height: $height;
+    background-color: $color;
+}
+
+@mixin inherit-text-props {
+    font-size: inherit;
+    font-family: inherit;
+    font-weight: inherit;
+    text-transform: inherit;
+    text-decoration: inherit;
+    color: inherit;
+}

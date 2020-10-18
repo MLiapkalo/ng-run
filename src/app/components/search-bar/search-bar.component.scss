@@ -1,0 +1,18 @@
+@import '../../shared/styles/inputs';
+
+.search-bar {
+    display: flex;
+
+    &__input {
+        width: 100%;
+    }
+
+    &__submit {
+      display: flex;
+      align-items: center;
+    }
+
+    &__input + &__submit {
+        margin-left: 1vw;
+    }
+}

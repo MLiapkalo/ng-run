@@ -1,1 +1,14 @@
-<p>courses-page works!</p>
+<app-header></app-header>
+<app-breadcrumbs></app-breadcrumbs>
+<div class="container">
+    <div class="col-m row aln-center courses-actions">
+        <app-search-bar></app-search-bar>
+        <app-add-course></app-add-course>
+    </div>
+    <app-courses-list
+      (delete)="deleteCourse($event)"
+      (edit)="editCourse($event)"
+      [list]="courses">
+    </app-courses-list>
+</div>
+<app-footer></app-footer>

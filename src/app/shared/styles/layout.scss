@@ -1,0 +1,38 @@
+.container {
+    display: block;
+    position: relative;
+    padding: .5rem;
+    width: 96vw;
+    margin: 0 auto;
+
+    @media screen and (min-width: 1024px) {
+        width: 90vw;
+    }
+}
+
+.row {
+    position: relative;
+    display: flex;
+    width: 100%;
+}
+
+.col-m {
+    display: flex;
+    flex-direction: column;
+
+    @media screen and (min-width: 768px) {
+        flex-direction: row;
+    }
+}
+
+.ml-auto {
+    margin-left: auto;
+}
+
+.mr-auto {
+    margin-right: auto;
+}
+
+.aln-center {
+    align-items: center;
+}

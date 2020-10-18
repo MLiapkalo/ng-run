@@ -1,1 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
+@import './src/app/shared/styles/layout-variables';
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-family: sans-serif;
+}
+
+html, body, ul {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #f0efed;
+    padding-bottom: $footer-height + 5vh;
+}

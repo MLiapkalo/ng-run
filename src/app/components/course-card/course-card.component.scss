@@ -1,0 +1,64 @@
+@import '../../shared/styles/cards';
+@import '../../shared/styles/colours';
+@import '../../shared/styles/layout';
+@import '../../shared/styles/inputs';
+
+.course-card {
+    $root: &;
+    padding: 1rem;
+    color: $black-smoke;
+
+    &__title {
+        font-size: 1.3rem;
+        font-weight: bold;
+    }
+
+    &__stats,
+    &__date,
+    &__duration {
+        display: flex;
+        align-items: center;
+    }
+
+    &__stats {
+        display: flex;
+        color: $grey-smoke;
+
+        #{ $root }__date,
+        #{ $root }__duration {
+            .material-icons {
+              margin-right: .5rem;
+            }
+        }
+
+        #{ $root }__duration + #{ $root }__date {
+            margin-left: 3vw;
+        }
+    }
+
+    &__action {
+        display: flex;
+        align-items: center;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: flex-start;
+
+        #{ $root }__action + #{ $root }__action {
+            margin-left: 2vw;
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        #{ $root }__actions {
+          justify-content: center;
+        }
+
+        #{ $root }__description + #{ $root }__actions {
+          margin-left: 3vw;
+        }
+    }
+}

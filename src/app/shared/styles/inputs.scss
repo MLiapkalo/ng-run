@@ -1,0 +1,61 @@
+@import 'colours';
+@import './mixins';
+
+.input, .button {
+    padding: .6rem;
+    border-radius: 2px;
+}
+
+.input {
+    padding: .4rem;
+    border: 1px solid $ex-light-smoke;
+    border-radius: 2px;
+    background-color: white;
+    color: $black-smoke;
+    outline: none;
+
+    &::placeholder {
+        color: $ex-light-smoke;
+    }
+}
+
+.button {
+    margin: 0;
+    font-weight: bold;
+    border: none;
+    outline: none;
+
+    &--submit, &--action {
+        color: white;
+    }
+
+    &--transparent {
+        background: transparent;
+        font-weight: normal;
+        @include inherit-text-props;
+    }
+
+    &--hover-pointer {
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    &--submit {
+        background-color: #67a300;
+    }
+
+    &--action {
+        background-color: #52c1e3;
+    }
+}
+
+a, button {
+    .material-icons {
+        font-size: 1.3rem;
+
+        &:first-child {
+            margin-right: .2rem;
+        }
+    }
+}

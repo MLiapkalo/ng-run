@@ -1,0 +1,86 @@
+@import '../../shared/styles/colours';
+@import '../../shared/styles/mixins';
+@import '../../shared/styles/layout';
+@import '../../shared/styles/inputs';
+
+.page-header {
+    @include stripe(7vh, $black-smoke);
+    display: flex;
+    align-items: center;
+
+    &__navigation {
+
+        .navigation-list {
+            display: flex;
+            list-style: none;
+
+            &__link {
+                display: flex;
+                align-items: center;
+                color: $grey-smoke;
+                text-decoration: none;
+
+                &:hover {
+                    color: $ex-light-smoke;
+                    cursor: pointer;
+                }
+
+                a, button {
+                    display: flex;
+                    align-items: center;
+                    @include inherit-text-props;
+                }
+            }
+
+            &__link + &__link {
+                margin-left: 20px;
+            }
+        }
+
+        .navigation-list__link + .navigation-list__link {
+            margin-left: 20px;
+        }
+    }
+
+    .header-logo {
+        display: flex;
+        align-items: center;
+        color: white;
+        text-transform: uppercase;
+        cursor: pointer;
+
+        &__title {
+            margin: 0;
+        }
+    }
+
+    .header-logo__icon + .header-logo__title {
+        margin-left: 1vw;
+    }
+}
+
+.logo-icon {
+    position: relative;
+
+    &__oval {
+        display: block;
+        border-radius: 50%;
+        border-color: $grey-smoke;
+        border-width: 2px;
+        border-style: solid;
+        height: 28px;
+        width: 28px;
+    }
+
+    &__triangle {
+        display: block;
+        position: absolute;
+        top: 6px;
+        left: 8px;
+        width: 0;
+        height: 0;
+        border-top: 8px solid transparent;
+        border-left: 16px solid $grey-smoke;
+        border-bottom: 8px solid transparent;
+    }
+}

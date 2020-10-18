@@ -1,0 +1,39 @@
+@import '../../shared/styles/layout';
+
+.courses-actions {
+
+    margin-bottom: 3vh;
+
+  app-search-bar {
+      width: 100%;
+
+      @media screen and (min-width: 768px) {
+          width: 65vw;
+      }
+
+      @media screen and (min-width: 1024px) {
+          width: 55vw;
+      }
+
+      @media screen and (min-width: 1280px) {
+          width: 40vw;
+      }
+  }
+
+  app-add-course {
+      display: flex;
+      margin-top: 2vw;
+
+      @media screen and (min-width: 768px) {
+        margin-top: 0;
+      }
+  }
+
+  app-search-bar + app-add-course {
+      align-self: flex-start;
+
+      @media screen and (min-width: 768px) {
+          margin-left: auto;
+      }
+  }
+}

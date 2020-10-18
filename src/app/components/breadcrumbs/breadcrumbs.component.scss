@@ -1,0 +1,31 @@
+@import '../../shared/styles/mixins';
+@import '../../shared/styles/colours';
+@import '../../shared/styles/layout';
+
+.breadcrumbs {
+    @include stripe(10vh, white);
+    margin-bottom: 3vh;
+    display: flex;
+    align-items: center;
+
+    .breadcrumbs-path {
+        display: flex;
+        list-style: none;
+    
+        &__step {
+            font-size: .8rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: $black-smoke;
+    
+            a {
+                @include inherit-text-props;
+            }
+
+            :hover {
+                cursor: pointer;
+                color: $grey-smoke;
+            }
+        }
+    }
+}
