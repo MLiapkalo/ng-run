@@ -3,11 +3,13 @@
         [(ngModel)]="term"
         [ngModelOptions]="{ standalone: true }"
         class="search-bar__input input"
+        data-test-id="input"
         type="text"
         placeholder="Type to search">
     <button
         (click)="onSubmit()"
         class="search-bar__submit button button--hover-pointer button--submit"
+        data-test-id="submit"
         type="button">
         <span class="material-icons">search</span>
         Search
