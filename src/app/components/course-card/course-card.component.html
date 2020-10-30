@@ -1,12 +1,19 @@
-<div class="card course-card">
+<div
+  [appRecent]="course.creationDate"
+  upcomingHighlightColor="#45b5ff"
+  recentHighlightColor="#67a300"
+  class="card course-card">
     <div class="row aln-center">
         <p class="course-card__title" data-test-id="title">
-            {{ course.title }}
+            {{ course.title | uppercase }}
+          <span *ngIf="course.topRated" class="material-icons course-card__top-rated-mark">
+            stars
+          </span>
         </p>
         <div class="course-card__stats ml-auto">
             <span class="course-card__duration" data-test-id="duration">
                 <span class="material-icons">access_time</span>
-                {{ course.duration }}
+                {{ course.duration | duration : 'h' : 'min' }}
             </span>
             <span class="course-card__date" data-test-id="date">
                 <span class="material-icons">calendar_today</span>

@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Course } from '../../shared/interfaces/course';
+import { ListOrdering } from '../../shared/enums/listOrdering';
 
 @Component({
   selector: 'app-courses-list',
@@ -9,6 +10,10 @@ import { Course } from '../../shared/interfaces/course';
 export class CoursesListComponent {
   @Input()
   list: Course[] = [];
+  @Input()
+  order: ListOrdering = ListOrdering.Desc;
+  @Input()
+  orderByKey: keyof Course = 'creationDate';
   @Output()
   delete = new EventEmitter<string>();
   @Output()

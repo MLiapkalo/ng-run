@@ -1,8 +1,8 @@
 @import '../../shared/styles/layout';
+@import '../../shared/styles/colours';
 
 .courses-actions {
-
-    margin-bottom: 3vh;
+  margin-bottom: 3vh;
 
   app-search-bar {
       width: 100%;
@@ -30,10 +30,21 @@
   }
 
   app-search-bar + app-add-course {
-      align-self: flex-start;
+	  align-self: flex-start;
 
       @media screen and (min-width: 768px) {
           margin-left: auto;
       }
   }
+}
+
+.no-data-message {
+	text-align: center;
+	font-weight: bold;
+	font-size: 18px;
+	color: $black-smoke;
+	
+	@media screen and (min-width: 768px) {
+		font-size: 24px;
+	}
 }

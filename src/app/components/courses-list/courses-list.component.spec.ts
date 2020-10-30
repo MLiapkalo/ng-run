@@ -4,6 +4,7 @@ import { Component, Input, DebugElement } from '@angular/core';
 
 import { CoursesListComponent } from './courses-list.component';
 import COURSES_MOCK from '../../shared/mocks/courses.mock';
+import { pipeStub } from '../../shared/testUtils';
 
 @Component({
   selector: 'app-course-card',
@@ -23,7 +24,8 @@ describe('CoursesListComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         CoursesListComponent,
-        CourseCardStubComponent
+        CourseCardStubComponent,
+        pipeStub('orderBy')
       ]
     })
     .compileComponents();

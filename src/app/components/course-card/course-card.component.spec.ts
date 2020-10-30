@@ -1,10 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { DebugElement, Directive, Input } from '@angular/core';
 import { Component } from '@angular/core';
 
 import { CourseModel } from '../../shared/models/course.model';
 import { CourseCardComponent } from './course-card.component';
+import { pipeStub } from '../../shared/testUtils';
+
+@Directive({
+  selector: '[appRecent]'
+})
+class StubRecentDirective {
+  @Input('appRecent')
+  inp: any;
+}
 
 @Component({
   selector: 'app-test-host',
@@ -17,7 +26,7 @@ import { CourseCardComponent } from './course-card.component';
   `,
 })
 class TestHostComponent {
-  course = new CourseModel('1', 'title', new Date(2020, 9, 26).toISOString(), 45, 'description');
+  course = new CourseModel('1', 'title', new Date(2020, 9, 26), 45, 'description', true);
   deletedCourseId: string;
   editedCourseId: string;
 
@@ -46,7 +55,12 @@ describe('CourseCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ CourseCardComponent, TestHostComponent ]
+      declarations: [
+        CourseCardComponent,
+        TestHostComponent,
+        pipeStub('duration'),
+        StubRecentDirective
+      ]
     })
     .compileComponents();
   }));
@@ -63,7 +77,7 @@ describe('CourseCardComponent', () => {
 
   it('should always render title', () => {
     const titleEl = de.query(By.css(SELECTORS.title)).nativeElement;
-    expect(titleEl.textContent).toContain(host.course.title);
+    expect(titleEl.textContent).toContain(host.course.title.toUpperCase());
   });
 
   it('should always render description', () => {

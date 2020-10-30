@@ -3,7 +3,9 @@ import { By } from '@angular/platform-browser';
 import { Component, Input, Output, EventEmitter, DebugElement } from '@angular/core';
 
 import { CoursesPageComponent } from './courses-page.component';
+import { FilterByPipe } from '../../pipes/filter-by/filter-by.pipe';
 import COURSES_MOCK from '../../shared/mocks/courses.mock';
+import { pipeStub, componentStubSeries } from '../../shared/testUtils';
 
 const ID = '1';
 
@@ -20,9 +22,6 @@ class CoursesListStubComponent {
   list: any[];
 }
 
-const stubsFor = (...selectors) =>
-  selectors.map(selector => Component({ selector, template: '' })(class {}));
-
 describe('CoursesListComponent', () => {
   let component: CoursesPageComponent;
   let fixture: ComponentFixture<CoursesPageComponent>;
@@ -33,14 +32,17 @@ describe('CoursesListComponent', () => {
       declarations: [
         CoursesPageComponent,
         CoursesListStubComponent,
-        stubsFor(
+        componentStubSeries(
           'app-header',
           'app-breadcrumbs',
           'app-search-bar',
           'app-add-course',
           'app-footer'
         ),
-      ]
+      ],
+       providers: [
+         { provide: FilterByPipe, useClass: pipeStub('filterBy') }
+       ]
     })
     .compileComponents();
   }));

@@ -1,5 +1,5 @@
 <ul class="courses-list">
-    <li class="courses-list__entry" *ngFor="let course of list">
+    <li class="courses-list__entry" *ngFor="let course of list | orderBy : orderByKey : order">
         <app-course-card
           [course]="course"
           (delete)="onCourseDelete($event)"
