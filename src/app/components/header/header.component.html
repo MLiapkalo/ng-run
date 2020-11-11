@@ -1,7 +1,7 @@
 <header class="page-header">
     <div class="container">
         <div class="row aln-center">
-            <a router-link="" class="header-logo">
+            <a routerLink="/" class="header-logo">
                 <div class="header-logo__icon logo-icon">
                     <span class="logo-icon__oval"></span>
                     <span class="logo-icon__triangle"></span>
@@ -11,16 +11,25 @@
             <nav class="page-header__navigation ml-auto">
                 <ul class="navigation-list">
                     <li class="navigation-list__link">
-                        <a routerLink="">
-                            <span class="material-icons">login</span>
-                            User login
+                        <a *ngIf="isAuthenticated; else loginLink" 
+                            routerLink="">
+                            <span class="material-icons">account_circle</span>
+                            {{ userEmail }}
                         </a>
+                        <ng-template #loginLink>
+                            <a routerLink="/login">
+                                <span class="material-icons">login</span>
+                                Login
+                            </a>
+                        </ng-template>
                     </li>
                     <li class="navigation-list__link">
-                        <button class="button button--transparent button--hover-pointer">
+                        <a routerLink="/"
+                            (click)="doLogout()"
+                            class="button button--transparent button--hover-pointer">
                             <span class="material-icons">highlight_off</span>
                             Log out
-                        </button>
+                        </a>
                     </li>
                 </ul>
             </nav>

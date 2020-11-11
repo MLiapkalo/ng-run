@@ -26,7 +26,7 @@ class StubRecentDirective {
   `,
 })
 class TestHostComponent {
-  course = new CourseModel('1', 'title', new Date(2020, 9, 26), 45, 'description', true);
+  course = new CourseModel('1', 'title', 45, 'description', new Date(2020, 9, 26), true);
   deletedCourseId: string;
   editedCourseId: string;
 

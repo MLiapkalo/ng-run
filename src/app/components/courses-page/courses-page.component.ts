@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Course } from '../../shared/interfaces/course';
-import { FilterByPipe } from '../../pipes/filter-by/filter-by.pipe';
-import COURSES_MOCK from '../../shared/mocks/courses.mock';
+import { CoursesService } from '../../services/courses/courses.service';
 
 @Component({
   selector: 'app-courses-page',
@@ -12,11 +11,11 @@ export class CoursesPageComponent implements OnInit {
   courses: Course[] = [];
 
   constructor(
-    private filterBy: FilterByPipe
+    private coursesService: CoursesService
   ) {}
 
   ngOnInit(): void {
-    this.courses = COURSES_MOCK;
+    this.courses = this.coursesService.getList();
   }
 
   editCourse(id: string): void {
@@ -24,12 +23,15 @@ export class CoursesPageComponent implements OnInit {
   }
 
   deleteCourse(id: string): void {
-    this.courses = this.courses.filter(({ id: courseId }) => courseId !== id);
+    if (confirm('Do you really want to delete this course?')) {
+      this.coursesService.deleteById(id);
+      this.courses = this.coursesService.getList();
+    }
   }
 
   findCourseByTitle(term: string): void {
     this.courses = term
-      ? this.filterBy.transform(COURSES_MOCK, 'title', term)
-      : COURSES_MOCK;
+      ? this.coursesService.getByTitle(term)
+      : this.coursesService.getList();
   }
 }

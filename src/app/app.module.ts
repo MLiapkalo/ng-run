@@ -1,6 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
 import { AppRoutingModule } from './app-routing.module';
+import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
 import { CoursesPageComponent } from './components/courses-page/courses-page.component';
@@ -11,11 +14,7 @@ import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.compo
 import { FooterComponent } from './components/footer/footer.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { AddCourseComponent } from './components/add-course/add-course.component';
-import { FormsModule } from '@angular/forms';
-import { OrderByPipe } from './pipes/order-by/order-by.pipe';
-import { FilterByPipe } from './pipes/filter-by/filter-by.pipe';
-import { DurationPipe } from './pipes/duration/duration.pipe';
-import { RecentDirective } from './directives/recent/recent.directive';
+import { LoginPageComponent } from './components/login-page/login-page.component';
 
 @NgModule({
   declarations: [
@@ -28,17 +27,14 @@ import { RecentDirective } from './directives/recent/recent.directive';
     FooterComponent,
     SearchBarComponent,
     AddCourseComponent,
-    OrderByPipe,
-    FilterByPipe,
-    DurationPipe,
-    RecentDirective,
+    LoginPageComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ],
-  providers: [FilterByPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

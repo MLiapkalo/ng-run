@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {ListOrdering} from '../../shared/enums/listOrdering';
+import {ListOrdering} from '../../enums/listOrdering';
 
 type CompareFunction = (a: any, b: any) => number;
 type CompareByKeyFunction = (key: string | number | symbol) => CompareFunction;

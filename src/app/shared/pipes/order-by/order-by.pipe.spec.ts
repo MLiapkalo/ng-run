@@ -1,5 +1,5 @@
 import { OrderByPipe } from './order-by.pipe';
-import { ListOrdering } from '../../shared/enums/listOrdering';
+import { ListOrdering } from '../../enums/listOrdering';
 
 const unordered = [
   { prop1: 5, prop2: 'c' },

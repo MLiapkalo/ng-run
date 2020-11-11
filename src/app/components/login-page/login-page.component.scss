@@ -1,0 +1,9 @@
+@import '../../shared/styles/form.scss';
+
+.login-form {
+    margin-top: 20vh;
+
+    &__bottom-section {
+        justify-content: space-between;
+    }
+}

@@ -1,0 +1,55 @@
+@import './layout';
+@import './inputs';
+@import './cards';
+
+.form {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    width: 400px;
+    $root: &;
+
+    &__header {
+        margin: 0 0 3vh;
+    }
+
+    &__vertical-group, &__group {
+        display: flex;
+        margin-bottom: 2vh;
+    }
+
+    &__vertical-group {
+        flex-direction: column;
+
+        #{ $root }__label + #{ $root }__input {
+            margin-top: 1vw;
+        }
+    }
+
+    &__group {
+        flex-direction: row;
+        align-items: center;
+
+        #{ $root }__label + #{ $root }__input {
+            margin-left: 2vw;
+        }
+    }
+
+    &__label {
+        font-size: .8rem;
+        font-weight: bold;
+    }
+
+    &__link {
+        color: #52c1e3;
+        text-decoration: underline;
+    }
+
+    &__submit {
+        background-color: #c3ccd9;
+    }
+
+    &__link, &__submit:not([disabled]) {
+        cursor: pointer;
+    }
+}

@@ -1,10 +1,11 @@
 @import '../../shared/styles/colours';
 @import '../../shared/styles/mixins';
 @import '../../shared/styles/layout';
+@import '../../shared/styles/layout-variables';
 @import '../../shared/styles/inputs';
 
 .page-header {
-    @include stripe(7vh, $black-smoke);
+    @include stripe($header-height, $black-smoke);
     display: flex;
     align-items: center;
 
@@ -47,6 +48,7 @@
         align-items: center;
         color: white;
         text-transform: uppercase;
+        text-decoration: none;
         cursor: pointer;
 
         &__title {

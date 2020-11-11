@@ -3,9 +3,10 @@ import { By } from '@angular/platform-browser';
 import { Component, Input, Output, EventEmitter, DebugElement } from '@angular/core';
 
 import { CoursesPageComponent } from './courses-page.component';
-import { FilterByPipe } from '../../pipes/filter-by/filter-by.pipe';
-import COURSES_MOCK from '../../shared/mocks/courses.mock';
+import { FilterByPipe } from '../../shared/pipes/filter-by/filter-by.pipe';
+import { COURSES_LIST } from '../../shared/mocks/courses.mock';
 import { pipeStub, componentStubSeries } from '../../shared/testUtils';
+import { CoursesService } from '../../services/courses/courses.service';
 
 const ID = '1';
 
@@ -22,7 +23,19 @@ class CoursesListStubComponent {
   list: any[];
 }
 
-describe('CoursesListComponent', () => {
+class CoursesServiceMock {
+  private _courses = COURSES_LIST;
+
+  getList() {
+    return [...this._courses];
+  }
+
+  deleteById(id: string) {
+    this._courses = this._courses.filter(({ id: courseId }) => courseId !== id);
+  }
+}
+
+describe('CoursesPageComponent', () => {
   let component: CoursesPageComponent;
   let fixture: ComponentFixture<CoursesPageComponent>;
   let de: DebugElement;
@@ -41,7 +54,11 @@ describe('CoursesListComponent', () => {
         ),
       ],
        providers: [
-         { provide: FilterByPipe, useClass: pipeStub('filterBy') }
+         { provide: FilterByPipe, useClass: pipeStub('filterBy') },
+         {
+           provide: CoursesService,
+           useClass: CoursesServiceMock
+         }
        ]
     })
     .compileComponents();
@@ -58,11 +75,13 @@ describe('CoursesListComponent', () => {
   });
 
   it('should load courses on init', () => {
+    expect(component.courses).not.toEqual(COURSES_LIST);
     component.ngOnInit();
-    expect(component.courses).toBe(COURSES_MOCK);
+    expect(component.courses).toEqual(COURSES_LIST)
   });
 
   it('should handle course deletion', () => {
+    spyOn(window, 'confirm').and.returnValue(true);
     fixture.detectChanges();
 
     expect(component.courses.find(({ id }) => id === ID)).toBeTruthy();

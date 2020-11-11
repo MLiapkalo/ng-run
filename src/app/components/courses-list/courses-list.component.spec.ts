@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 import { Component, Input, DebugElement } from '@angular/core';
 
 import { CoursesListComponent } from './courses-list.component';
-import COURSES_MOCK from '../../shared/mocks/courses.mock';
+import { COURSES_LIST } from '../../shared/mocks/courses.mock';
 import { pipeStub } from '../../shared/testUtils';
 
 @Component({
@@ -36,7 +36,7 @@ describe('CoursesListComponent', () => {
     de = fixture.debugElement;
 
     component = fixture.componentInstance;
-    component.list = COURSES_MOCK;
+    component.list = COURSES_LIST;
 
     fixture.detectChanges();
   });
@@ -47,7 +47,7 @@ describe('CoursesListComponent', () => {
 
   it('should render list of entries from binding', () => {
     const entries = de.queryAll(By.css('.courses-list__entry'));
-    expect(entries.length).toBe(COURSES_MOCK.length);
+    expect(entries.length).toBe(COURSES_LIST.length);
   });
 
   it('should load more courses on "Load more" button click', () => {
