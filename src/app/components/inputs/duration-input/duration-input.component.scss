@@ -1,0 +1,12 @@
+@import '../../../shared/styles/inputs';
+@import '../../../shared/styles/layout';
+
+.duration-input {
+    &__converted {
+        color: $grey-smoke;
+    }
+
+    &__field + &__converted {
+        margin-left: 1vw;
+    }
+}

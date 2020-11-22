@@ -1,0 +1,30 @@
+<form class="form course-form">
+    <label class="form__vertical-group">
+        <span class="form__label">Title</span>
+        <input class="input form__input" required>
+    </label>
+    <label class="form__vertical-group">
+        <span class="form__label">Descriptiion</span>
+        <textarea class="input" required></textarea>
+    </label>
+    <label class="form__vertical-group">
+        <span class="form__label">Duration</span>
+        <app-duration-input></app-duration-input>
+    </label>
+    <label class="form__vertical-group">
+        <span class="form__label">Date</span>
+        <app-date-input></app-date-input>
+    </label>
+    <label class="form__vertical-group">
+        <span class="form__label">Authors</span>
+        <app-authors-input></app-authors-input>
+    </label>
+    <div class="form__group row aln-center">
+        <button class="button">Cancel</button>
+        <button 
+            class="form__submit button" 
+            type="submit">
+            Save
+        </button>
+    </div>
+</form>

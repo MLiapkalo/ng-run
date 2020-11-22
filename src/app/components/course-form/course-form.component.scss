@@ -1,0 +1,19 @@
+@import '../../shared/styles/form';
+
+
+.course-form {
+    width: 90vw;
+
+    @media screen and (min-width: 768px) {
+        width: 90vw;
+    }
+
+    @media screen and (min-width: 1024px) {
+        width: 65vw;
+    }
+
+    @media screen and (min-width: 1280px) {
+        width: 60vw;
+    }
+    // max-width: 650px;
+}

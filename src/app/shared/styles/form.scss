@@ -21,8 +21,8 @@
     &__vertical-group {
         flex-direction: column;
 
-        #{ $root }__label + #{ $root }__input {
-            margin-top: 1vw;
+        #{ $root }__label {
+            margin-bottom: 1vw;
         }
     }
 

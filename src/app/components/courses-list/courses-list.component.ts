@@ -1,33 +1,57 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnChanges,
+  Input,
+  SimpleChanges
+} from '@angular/core';
 import { Course } from '../../shared/interfaces/course';
 import { ListOrdering } from '../../shared/enums/listOrdering';
+import { CoursesService } from 'src/app/services/courses/courses.service';
 
 @Component({
   selector: 'app-courses-list',
   templateUrl: './courses-list.component.html',
   styleUrls: ['./courses-list.component.scss']
 })
-export class CoursesListComponent {
+export class CoursesListComponent implements OnInit, OnChanges {
   @Input()
-  list: Course[] = [];
+  searchTerm = '';
   @Input()
   order: ListOrdering = ListOrdering.Desc;
   @Input()
   orderByKey: keyof Course = 'creationDate';
-  @Output()
-  delete = new EventEmitter<string>();
-  @Output()
-  edit = new EventEmitter<string>();
+
+  list: Course[] = [];
+
+  constructor(
+    private coursesService: CoursesService
+  ) {}
+
+  ngOnInit(): void {
+    this.list = this.coursesService.getList();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.hasOwnProperty('searchTerm')) {
+      this.findCourseByTitle(this.searchTerm);
+    }
+  }
+
+  deleteCourse(id: string): void {
+    if (confirm('Do you really want to delete this course?')) {
+      this.coursesService.deleteById(id);
+      this.list = this.coursesService.getList();
+    }
+  }
+
+  findCourseByTitle(term: string): void {
+    this.list = term
+      ? this.coursesService.getByTitle(term)
+      : this.coursesService.getList();
+  }
 
   onLoadMore(): void {
     console.log('Load more');
-  }
-
-  onCourseDelete(id: string): void {
-    this.delete.emit(id);
-  }
-
-  onCourseEdit(id: string): void {
-    this.edit.emit(id);
   }
 }

@@ -95,13 +95,6 @@ describe('CourseCardComponent', () => {
     expect(dateEl.textContent).toContain('26 Oct, 2020');
   });
 
-  it('should emit course id for editing', () => {
-    const editBtnEl = de.query(By.css(SELECTORS.editBtn));
-    expect(host.editedCourseId).toBeUndefined();
-    editBtnEl.triggerEventHandler('click', null);
-    expect(host.editedCourseId).toBe(host.course.id);
-  });
-
   it('should emit course id for deletion', () => {
     const deleteBtnEl = de.query(By.css(SELECTORS.deleteBtn));
     expect(host.deletedCourseId).toBeUndefined();

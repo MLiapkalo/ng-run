@@ -27,7 +27,7 @@
         </p>
         <div class="course-card__actions row aln-center">
             <button
-              (click)="onEditClick()"
+              [routerLink]="['/courses', 'edit', course.id]"
               data-test-id="edit-btn"
               class="course-card__action button button--action button--hover-pointer">
                 <span class="material-icons">edit</span>

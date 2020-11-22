@@ -1,9 +1,11 @@
-<ul class="courses-list">
+<ul 
+    *ngIf="list.length; else noDataMessage" 
+    class="courses-list">
     <li class="courses-list__entry" *ngFor="let course of list | orderBy : orderByKey : order">
         <app-course-card
           [course]="course"
-          (delete)="onCourseDelete($event)"
-          (edit)="onCourseEdit($event)"
+          (delete)="deleteCourse($event)"
+          (edit)="editCourse($event)"
         ></app-course-card>
     </li>
     <li class="courses-list__load card">
@@ -14,3 +16,6 @@
         </button>
     </li>
 </ul>
+<ng-template #noDataMessage>
+    <p class="no-data-message">No courses found, feel free to add a new one.</p>
+</ng-template>
