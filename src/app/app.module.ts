@@ -21,6 +21,7 @@ import { DurationInputComponent } from './components/inputs/duration-input/durat
 import { DateInputComponent } from './components/inputs/date-input/date-input.component';
 import { CourseFormComponent } from './components/course-form/course-form.component';
 import { AuthorsInputComponent } from './components/inputs/authors-input/authors-input.component';
+import { NotFoundPageComponent } from './components/pages/not-found-page.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { AuthorsInputComponent } from './components/inputs/authors-input/authors
     DateInputComponent,
     CourseFormComponent,
     AuthorsInputComponent,
+    NotFoundPageComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,9 @@
-<app-header></app-header>
 <div class="container full-height">
     <div class="row aln-center jst-center">
-        <app-course-form></app-course-form>
+        <app-course-form [course]="course" *ngIf="course; else noDataMessage"></app-course-form>
+        <ng-template #noDataMessage>
+            <p class="no-data-message">Course not found</p>
+        </ng-template>
     </div>
 </div>
 <app-footer></app-footer>

@@ -2,8 +2,8 @@
     <div class="container">
         <nav class="row">
             <ul class="breadcrumbs-path">
-                <li class="breadcrumbs-path__step">
-                    <a routerLink="">Courses</a>
+                <li *ngFor="let breadcrumb of breadcrumbs$ | async" class="breadcrumbs-path__step">
+                    <a [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a>
                 </li>
             </ul>
         </nav>

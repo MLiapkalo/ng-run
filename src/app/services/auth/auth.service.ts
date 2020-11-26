@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Credentials } from '../../shared/interfaces/credentials';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   private get AUTH_TOKEN_KEY() {
     return 'AUTH_TOKEN';
@@ -16,13 +19,12 @@ export class AuthService {
   }
 
   login(payload: Credentials): void {
-    console.log('AuthService: login');
     localStorage.setItem(this.AUTH_TOKEN_KEY, 'fake auth token');
     localStorage.setItem(this.USER_INFO_KEY, JSON.stringify({ email: payload.email }));
+    this.router.navigateByUrl('/courses');
   }
 
   logout(): void {
-    console.log('AuthService: logout');
     localStorage.removeItem(this.AUTH_TOKEN_KEY);
     localStorage.removeItem(this.USER_INFO_KEY);
   }

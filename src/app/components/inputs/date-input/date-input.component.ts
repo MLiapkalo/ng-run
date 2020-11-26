@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-date-input',
@@ -6,4 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./date-input.component.scss']
 })
 export class DateInputComponent {
+  @Input()
+  date = 0;
 }

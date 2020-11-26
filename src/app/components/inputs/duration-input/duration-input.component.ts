@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-duration-input',
@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./duration-input.component.scss']
 })
 export class DurationInputComponent {
+  @Input('duration')
   durationInMins = '';
 }

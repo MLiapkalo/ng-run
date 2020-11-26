@@ -1,19 +1,20 @@
 <form class="form course-form">
     <label class="form__vertical-group">
         <span class="form__label">Title</span>
-        <input class="input form__input" required>
+        <input [value]="course.title" class="input form__input" required>
     </label>
     <label class="form__vertical-group">
         <span class="form__label">Descriptiion</span>
-        <textarea class="input" required></textarea>
+        <textarea 
+        [value]="course.description" class="input" required></textarea>
     </label>
     <label class="form__vertical-group">
         <span class="form__label">Duration</span>
-        <app-duration-input></app-duration-input>
+        <app-duration-input [duration]="course.duration"></app-duration-input>
     </label>
     <label class="form__vertical-group">
         <span class="form__label">Date</span>
-        <app-date-input></app-date-input>
+        <app-date-input [date]="course.creationDate"></app-date-input>
     </label>
     <label class="form__vertical-group">
         <span class="form__label">Authors</span>
