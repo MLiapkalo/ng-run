@@ -1,4 +1,11 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy
+} from '@angular/core';
+import { Observable } from 'rxjs';
 import { AuthService } from '../../services/auth/auth.service';
 import { Course } from '../../shared/interfaces/course';
 
@@ -12,7 +19,7 @@ export class CourseCardComponent {
   @Input()
   course: Course;
   @Output()
-  delete = new EventEmitter<string>();
+  delete = new EventEmitter<number>();
 
   constructor(
     private authService: AuthService
@@ -22,7 +29,7 @@ export class CourseCardComponent {
     this.delete.emit(this.course.id);
   }
 
-  get allowModifying(): boolean {
+  get allowModifying(): Observable<boolean> {
     return this.authService.isAuthenticated();
   }
 }

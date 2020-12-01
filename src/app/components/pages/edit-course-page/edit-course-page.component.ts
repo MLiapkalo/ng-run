@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CoursesService } from 'src/app/services/courses/courses.service';
-import { Course } from 'src/app/shared/interfaces/course';
+import { CourseDTO } from 'src/app/shared/interfaces/course';
+import { Observable } from 'rxjs';
+import { courseToDTO } from '../../../mappers/course.mapper';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-edit-course-page',
@@ -9,7 +12,7 @@ import { Course } from 'src/app/shared/interfaces/course';
   styleUrls: ['./edit-course-page.component.scss']
 })
 export class EditCoursePageComponent implements OnInit {
-  course: Course;
+  course$: Observable<CourseDTO>;
 
   constructor(
     private route: ActivatedRoute,
@@ -18,7 +21,7 @@ export class EditCoursePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(({ id }) => {
-      this.course = this.courseService.getById(id)
+      this.course$ = this.courseService.getById(id).pipe(map(courseToDTO));
     });
   }
 }

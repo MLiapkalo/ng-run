@@ -1,7 +1,7 @@
 <div class="row aln-center duration-input">
-    <input 
+    <input
         type="number"
-        [(ngModel)]="durationInMins" 
+        [(ngModel)]="duration"
         class="duration-input__field input" placeholder="Duration in mins">
-    <span class="duration-input__converted">{{ durationInMins | duration }}</span>
+    <span class="duration-input__converted">{{ duration | duration }}</span>
 </div>

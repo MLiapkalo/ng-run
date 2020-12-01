@@ -1,70 +1,68 @@
-import { Injectable, Inject } from '@angular/core';
-import { 
-  Course, 
-  RequiredCourseProps, 
-  OptionalCourseProps
+import { Injectable } from '@angular/core';
+import {
+  Course,
+  CourseDTO,
+  CoursesSlice,
+  CoursesDTOSlice
 } from '../../shared/interfaces/course';
-import { CourseModel } from '../../shared/models/course.model';
-import { FilterByPipe } from '../../shared/pipes/filter-by/filter-by.pipe';
-import { COURSES_MOCK } from 'src/app/shared/mocks/courses.mock';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { ApiConfigService } from '../api-config/api-config.service';
+import { DTOToCourse } from '../../mappers/course.mapper';
+import { SliceParams } from '../../shared/interfaces/SliceParams';
+import { HttpParams } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CoursesService {
   constructor(
-    private filterBy: FilterByPipe,
-    @Inject(COURSES_MOCK) private _courses: Course[]
+    private http: HttpClient,
+    private cfg: ApiConfigService
   ) {}
-  
-  private get courseId(): string {
-    const { _courses: c } = this;
-    const { id } = c[c.length - 1];
-    return `${+id + 1}`;
+
+  private constructQueryParams({ start, count, term }: SliceParams): HttpParams {
+    let params = new HttpParams();
+
+    if (start) {
+      params = params.set('start', start.toString());
+    }
+
+    if (count) {
+      params = params.set('count', count.toString());
+    }
+
+    if (term) {
+      params = params.set('textFragment', term);
+    }
+
+    return params;
   }
 
-  private findIndexById(id: string) {
-    return this._courses.findIndex(({ id: courseId }) => courseId === id);
+  private mapCoursesDTOSlice({ list, hasNext }: CoursesDTOSlice): CoursesSlice {
+    return { list: list.map(DTOToCourse), hasNext };
   }
 
-  getList(): Course[] {
-    return this._courses.slice();
+  getList(params: SliceParams): Observable<CoursesSlice> {
+    return this.http.get<CoursesDTOSlice>(this.cfg.courses(), {
+      params: this.constructQueryParams(params)
+    }).pipe(map(this.mapCoursesDTOSlice));
   }
 
-  createCourse(props: RequiredCourseProps & OptionalCourseProps): Course {
-    const { title, description, duration, creationDate = new Date(), topRated = false } = props;
-    const newCourse = new CourseModel(this.courseId, title, duration, description, creationDate, topRated);
-    this._courses.push(newCourse);
-    return newCourse;
+  createCourse(payload: CourseDTO): Observable<Course> {
+    return this.http.post<CourseDTO>(this.cfg.courses(), JSON.stringify(payload)).pipe(map(DTOToCourse));
   }
 
-  getById(id: string): Course {
-    const course = this._courses.find(({ id: courseId }) => courseId === id);
-    return course ? { ...course } : null;
+  getById(id: string): Observable<Course> {
+    return this.http.get<CourseDTO>(this.cfg.course(id)).pipe(map(DTOToCourse));
   }
 
-  getByTitle(term: string): Course[] {
-    return this.filterBy.transform(this._courses, 'title', term);
+  updateById(id: number, changes: CourseDTO): Observable<Course> {
+    return this.http.patch<CourseDTO>(this.cfg.course(id), JSON.stringify(changes)).pipe(map(DTOToCourse));
   }
 
-  updateById(id: string, changes: Partial<Course> = {}): Course {
-    const i = this.findIndexById(id);
-    if (i > - 1) {
-      let target = this._courses[i];
-      this._courses[i] = {
-        ...target,
-        ...changes
-      };
-      return this._courses[i];
-    } else return null;
-  }
-
-  deleteById(id: string): void {
-    const i = this.findIndexById(id);
-    if (i > -1) this._courses.splice(i, 1);
-  }
-
-  count() {
-    return this._courses.length;
+  deleteById(id: number): Observable<any> {
+    return this.http.delete<CourseDTO>(this.cfg.course(id));
   }
 }

@@ -1,5 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { Course } from 'src/app/shared/interfaces/course';
+import { Location } from '@angular/common';
+import { CourseDTO } from 'src/app/shared/interfaces/course';
+import { CoursesService } from '../../services/courses/courses.service';
+import { generateUID } from '../../mappers/course.mapper';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-course-form',
@@ -8,12 +12,49 @@ import { Course } from 'src/app/shared/interfaces/course';
 })
 export class CourseFormComponent {
   @Input()
-  course: Course = {
-    id: '',
-    title: '',
+  mode: 'post' | 'patch' = 'post';
+
+  @Input()
+  payload: CourseDTO = {
+    id: this.mode === 'post' ? generateUID() : null,
+    name: '',
     description: '',
-    duration: 0,
-    creationDate: null,
-    topRated: false
+    length: 0,
+    date: new Date().toString(),
+    isTopRated: false,
+    authors: [this.defaultAuthor]
   };
+
+  constructor(
+    private coursesService: CoursesService,
+    private authService: AuthService,
+    private location: Location
+  ) {}
+
+  private doPost(): void {
+    this.coursesService.createCourse(this.payload).subscribe(
+      ({ id }) => alert(`Course ${id} created`),
+      error => console.error(error)
+    );
+  }
+
+  private doPatch(): void {
+    this.coursesService.updateById(this.payload.id, this.payload).subscribe(
+      ({ id }) => alert(`Course ${id} updated`),
+      error => console.error(error)
+    );
+  }
+
+  private get defaultAuthor(): { id: number, name: string } {
+    const { id, name: { first, last } } = this.authService.getUserInfo();
+    return { id, name: `${first} ${last}` };
+  }
+
+  onSubmit(): void {
+    this.mode === 'post' ? this.doPost() : this.doPatch();
+  }
+
+  navigateBack(): void {
+    this.location.back();
+  }
 }

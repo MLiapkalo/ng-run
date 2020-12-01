@@ -4,28 +4,27 @@
             <h3 class="form__header">Login</h3>
             <label class="form__vertical-group">
                 <span class="form__label">E-mail</span>
-                <input 
-                    type="email" 
-                    [(ngModel)]="email"
-                    [ngModelOptions]="{ standalone: true }" 
-                    class="input form__input" 
-                    required 
+                <input
+                    [(ngModel)]="login"
+                    [ngModelOptions]="{ standalone: true }"
+                    class="input form__input"
+                    required
                     placeholder="Enter email">
             </label>
             <label class="form__vertical-group">
                 <span class="form__label">Password</span>
-                <input 
-                    type="password" 
+                <input
+                    type="password"
                     [(ngModel)]="password"
                     [ngModelOptions]="{ standalone: true }"
-                    class="input form__input" 
-                    required 
+                    class="input form__input"
+                    required
                     placeholder="Enter password">
             </label>
             <div class="form__group login-form__bottom-section">
                 <a class="form__link" routerLink="/">Forgot password?</a>
-                <button 
-                    class="form__submit button" 
+                <button
+                    class="form__submit button"
                     type="submit">
                     Login
                 </button>

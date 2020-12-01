@@ -1,9 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
+import HttpInterceptors from './http-interceptors';
 
 import { AppComponent } from './app.component';
 import { CoursesPageComponent } from './components/pages/courses-page/courses-page.component';
@@ -46,9 +49,11 @@ import { NotFoundPageComponent } from './components/pages/not-found-page.compone
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     FormsModule,
     SharedModule
   ],
+  providers: [HttpInterceptors, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

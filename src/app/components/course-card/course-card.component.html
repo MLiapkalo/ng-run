@@ -25,7 +25,7 @@
         <p class="course-card__description" data-test-id="description">
             {{ course.description }}
         </p>
-        <div *ngIf="allowModifying" class="course-card__actions row aln-center">
+        <div *ngIf="(allowModifying | async)" class="course-card__actions row aln-center">
             <button
               [routerLink]="['/courses', 'edit', course.id]"
               data-test-id="edit-btn"

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class CoursesPageComponent {
     private authService: AuthService
   ) {}
 
-  get allowCreation(): boolean {
+  get allowCreation(): Observable<boolean> {
     return this.authService.isAuthenticated();
   }
 

@@ -7,7 +7,7 @@ import { AuthService } from '../../../services/auth/auth.service';
   styleUrls: ['./login-page.component.scss']
 })
 export class LoginPageComponent {
-  email = '';
+  login = '';
   password = '';
 
   constructor(
@@ -16,7 +16,7 @@ export class LoginPageComponent {
 
   onLoginSubmit(): void {
     console.log('LoginPageComponent: submit');
-    const { email, password } = this;
-    this.authService.login({ email, password });
+    const { login, password } = this;
+    this.authService.login({ login, password });
   }
 }

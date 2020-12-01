@@ -11,10 +11,10 @@
             <nav class="page-header__navigation ml-auto">
                 <ul class="navigation-list">
                     <li class="navigation-list__link">
-                        <a *ngIf="isAuthenticated; else loginLink" 
+                        <a *ngIf="(isAuthenticated | async); else loginLink"
                             routerLink="">
                             <span class="material-icons">account_circle</span>
-                            {{ userEmail }}
+                            {{ userFullName }}
                         </a>
                         <ng-template #loginLink>
                             <a routerLink="/login">
