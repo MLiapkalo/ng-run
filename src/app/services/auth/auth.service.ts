@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { exhaustMap, map, tap} from 'rxjs/operators';
+import { exhaustMap, tap } from 'rxjs/operators';
 import { Credentials } from '../../shared/interfaces/credentials';
 import { ApiConfigService } from '../api-config/api-config.service';
 import { TokenResponse } from '../../shared/interfaces/TokenResponse';
@@ -13,7 +12,6 @@ import { User, UserInfo } from '../../shared/interfaces/User';
 })
 export class AuthService {
   constructor(
-    private router: Router,
     private http: HttpClient,
     private cfg: ApiConfigService
   ) {}
@@ -28,18 +26,15 @@ export class AuthService {
     return 'USER_INFO_KEY';
   }
 
-  private get postLoginRedirect(): string {
+  get successLoginRedirect(): string {
     return '/courses';
   }
 
-  login(payload: Credentials): void {
-    this.http.post(this.cfg.login(), payload).pipe(
+  login(payload: Credentials): Observable<UserInfo> {
+    return this.http.post(this.cfg.login(), payload).pipe(
       tap(this.saveToken),
       exhaustMap(this.fetchUserInfo),
-      map(this.saveUserInfo)
-    ).subscribe(
-      () => this.router.navigateByUrl(this.postLoginRedirect),
-      error => console.error(error)
+      tap(this.saveUserInfo),
     );
   }
 

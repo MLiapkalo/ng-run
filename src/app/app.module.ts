@@ -25,6 +25,7 @@ import { DateInputComponent } from './components/inputs/date-input/date-input.co
 import { CourseFormComponent } from './components/course-form/course-form.component';
 import { AuthorsInputComponent } from './components/inputs/authors-input/authors-input.component';
 import { NotFoundPageComponent } from './components/pages/not-found-page.component';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { NotFoundPageComponent } from './components/pages/not-found-page.compone
     CourseFormComponent,
     AuthorsInputComponent,
     NotFoundPageComponent,
+    LoadingSpinnerComponent,
   ],
   imports: [
     BrowserModule,

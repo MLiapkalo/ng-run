@@ -23,7 +23,9 @@
                             </a>
                         </ng-template>
                     </li>
-                    <li class="navigation-list__link">
+                    <li 
+                        *ngIf="(isAuthenticated | async)"
+                        class="navigation-list__link">
                         <a routerLink="/"
                             (click)="doLogout()"
                             class="button button--transparent button--hover-pointer">

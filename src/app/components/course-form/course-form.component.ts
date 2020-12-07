@@ -12,11 +12,11 @@ import { AuthService } from '../../services/auth/auth.service';
 })
 export class CourseFormComponent {
   @Input()
-  mode: 'post' | 'patch' = 'post';
+  mode: 'create' | 'edit' = 'create';
 
   @Input()
   payload: CourseDTO = {
-    id: this.mode === 'post' ? generateUID() : null,
+    id: this.mode === 'create' ? generateUID() : null,
     name: '',
     description: '',
     length: 0,
@@ -51,7 +51,7 @@ export class CourseFormComponent {
   }
 
   onSubmit(): void {
-    this.mode === 'post' ? this.doPost() : this.doPatch();
+    this.mode === 'create' ? this.doPost() : this.doPatch();
   }
 
   navigateBack(): void {

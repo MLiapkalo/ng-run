@@ -5,6 +5,7 @@ import { CourseDTO } from 'src/app/shared/interfaces/course';
 import { Observable } from 'rxjs';
 import { courseToDTO } from '../../../mappers/course.mapper';
 import { map } from 'rxjs/operators';
+import { LoadingStateService } from 'src/app/services/loading-state/loading-state.service';
 
 @Component({
   selector: 'app-edit-course-page',
@@ -12,16 +13,29 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./edit-course-page.component.scss']
 })
 export class EditCoursePageComponent implements OnInit {
-  course$: Observable<CourseDTO>;
+  course: CourseDTO;
 
   constructor(
     private route: ActivatedRoute,
-    private courseService: CoursesService
+    private courseService: CoursesService,
+    private loadingStateService: LoadingStateService
   ) {}
+
+  private fetchCourse(id: string) {
+    this.courseService.getById(id).pipe(map(courseToDTO)).subscribe(course => {
+      this.course = course;
+      this.loadingStateService.finish();
+    });
+  }
+
+  get isLoading(): Observable<boolean> {
+    return this.loadingStateService.isLoading();
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe(({ id }) => {
-      this.course$ = this.courseService.getById(id).pipe(map(courseToDTO));
+      this.loadingStateService.start();
+      this.fetchCourse(id);
     });
   }
 }

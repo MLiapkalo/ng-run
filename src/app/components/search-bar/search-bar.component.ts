@@ -1,17 +1,30 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { fromEvent } from 'rxjs';
+import { map, filter, distinctUntilChanged, debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search-bar',
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.scss']
 })
-export class SearchBarComponent {
+export class SearchBarComponent implements AfterViewInit {
   @Output()
-  searchSubmit = new EventEmitter<string>();
-  term = '';
+  termChange: EventEmitter<string> = new EventEmitter<string>();
 
-  onSubmit(): void {
-    console.log(`Search submit: ${this.term}`);
-    this.searchSubmit.emit(this.term);
+  @ViewChild('searchInput')
+  private searchInputEl: ElementRef<HTMLInputElement>;
+
+  private normalize(value: string) {
+    return value.toLowerCase().trim();
+  }
+
+  ngAfterViewInit(): void {
+    fromEvent(this.searchInputEl.nativeElement, 'keyup').pipe(
+      debounceTime(500),
+      map(evt => (evt.target as HTMLInputElement).value),
+      map(this.normalize),
+      filter(value => value.length > 2),
+      distinctUntilChanged()
+    ).subscribe(value => this.termChange.emit(value))
   }
 }

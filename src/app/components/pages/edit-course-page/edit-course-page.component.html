@@ -1,8 +1,12 @@
 <div class="container full-height">
     <div class="row aln-center jst-center">
-        <app-course-form [mode]="'patch'" [payload]="(course$ | async)" *ngIf="(course$ | async); else noDataMessage"></app-course-form>
+        <app-course-form 
+            [mode]="'edit'" 
+            [payload]="course" 
+            *ngIf="course; else noDataMessage">
+        </app-course-form>
         <ng-template #noDataMessage>
-            <p class="no-data-message">Course not found</p>
+            <p *ngIf="!(isLoading | async)" class="no-data-message">Course not found</p>
         </ng-template>
     </div>
 </div>

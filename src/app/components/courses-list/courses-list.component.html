@@ -16,5 +16,5 @@
     </li>
 </ul>
 <ng-template #noDataMessage>
-    <p class="no-data-message">No courses found, feel free to add a new one.</p>
+    <p *ngIf="!(isLoading | async)" class="no-data-message">No courses found, feel free to add a new one.</p>
 </ng-template>

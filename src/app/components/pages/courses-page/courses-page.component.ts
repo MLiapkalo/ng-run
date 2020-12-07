@@ -18,7 +18,7 @@ export class CoursesPageComponent {
     return this.authService.isAuthenticated();
   }
 
-  onSearchSubmit(term: string): void {
+  onTermChange(term: string): void {
     this.searchTerm = term;
   }
 }

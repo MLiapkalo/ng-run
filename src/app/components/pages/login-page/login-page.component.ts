@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { LoadingStateService } from 'src/app/services/loading-state/loading-state.service';
 import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
@@ -11,12 +13,20 @@ export class LoginPageComponent {
   password = '';
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router,
+    private loadingStateService: LoadingStateService
   ) {}
 
   onLoginSubmit(): void {
-    console.log('LoginPageComponent: submit');
     const { login, password } = this;
-    this.authService.login({ login, password });
+    this.loadingStateService.start();
+    this.authService.login({ login, password }).subscribe(
+        () => {
+          this.loadingStateService.finish();
+          this.router.navigateByUrl(this.authService.successLoginRedirect);
+        },
+        error => console.error(error)
+    );
   }
 }
