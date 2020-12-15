@@ -1,6 +1,7 @@
 <div class="search-bar">
     <input
         #searchInput
+        [value]="(term | async)"
         class="search-bar__input input"
         data-test-id="input"
         type="text"

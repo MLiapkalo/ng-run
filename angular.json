@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "ng-run"
+    }
+  },
+  "defaultProject": "ng-run",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

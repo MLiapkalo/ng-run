@@ -14,7 +14,7 @@
                         <a *ngIf="(isAuthenticated | async); else loginLink"
                             routerLink="">
                             <span class="material-icons">account_circle</span>
-                            {{ userFullName }}
+                            {{ (userFullName | async) }}
                         </a>
                         <ng-template #loginLink>
                             <a routerLink="/login">
@@ -23,7 +23,7 @@
                             </a>
                         </ng-template>
                     </li>
-                    <li 
+                    <li
                         *ngIf="(isAuthenticated | async)"
                         class="navigation-list__link">
                         <a routerLink="/"

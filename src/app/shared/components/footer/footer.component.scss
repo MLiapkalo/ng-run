@@ -1,7 +1,7 @@
-@import '../../shared/styles/colours';
-@import '../../shared/styles/mixins';
-@import '../../shared/styles/layout-variables';
-@import '../../shared/styles/layout';
+@import '../../styles/colours';
+@import '../../styles/mixins';
+@import '../../styles/layout-variables';
+@import '../../styles/layout';
 
 .page-footer {
     @include stripe($footer-height, $black-smoke);

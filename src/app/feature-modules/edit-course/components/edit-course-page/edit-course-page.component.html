@@ -1,8 +1,8 @@
 <div class="container full-height">
     <div class="row aln-center jst-center">
-        <app-course-form 
-            [mode]="'edit'" 
-            [payload]="course" 
+        <app-course-form
+            [mode]="'edit'"
+            [payload]="course"
             *ngIf="course; else noDataMessage">
         </app-course-form>
         <ng-template #noDataMessage>

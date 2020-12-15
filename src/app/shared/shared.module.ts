@@ -5,6 +5,7 @@ import { FilterByPipe } from './pipes/filter-by/filter-by.pipe';
 import { OrderByPipe } from './pipes/order-by/order-by.pipe';
 import { DurationPipe } from './pipes/duration/duration.pipe';
 import { RecentDirective } from './directives/recent/recent.directive';
+import { FooterComponent } from './components/footer/footer.component';
 
 import { COURSES_LIST, COURSES_MOCK } from './mocks/courses.mock';
 
@@ -13,16 +14,18 @@ import { COURSES_LIST, COURSES_MOCK } from './mocks/courses.mock';
     FilterByPipe,
     OrderByPipe,
     DurationPipe,
-    RecentDirective
+    RecentDirective,
+    FooterComponent,
   ],
   imports: [
-    CommonModule
+    CommonModule,
   ],
   exports: [
     FilterByPipe,
     OrderByPipe,
     DurationPipe,
-    RecentDirective
+    RecentDirective,
+    FooterComponent
   ],
   providers: [
     FilterByPipe,

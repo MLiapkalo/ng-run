@@ -1,54 +1,52 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CoursesPageComponent } from './components/pages/courses-page/courses-page.component';
-import { AddCoursePageComponent } from './components/pages/add-course-page/add-course-page.component';
-import { EditCoursePageComponent } from './components/pages/edit-course-page/edit-course-page.component';
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
 import { NotFoundPageComponent } from './components/pages/not-found-page.component';
 import { AuthGuard } from './guards/auth/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'courses', pathMatch: 'full' },
-  { 
+  {
     path: 'courses',
     data: {
       breadcrumb: 'Courses',
     },
     children: [
       {
-        path: '', 
+        path: '',
         data: {
           breadcrumb: null,
         },
         component: CoursesPageComponent
       },
-      { 
+      {
         path: 'add',
         data: {
           breadcrumb: 'Add',
-        }, 
-        component: AddCoursePageComponent,
+        },
+        loadChildren: () => import('./feature-modules/add-course/add-course.module').then(m => m.AddCourseModule),
         canActivate: [AuthGuard]
       },
-      { 
-        path: 'edit/:id',
+      {
+        path: 'edit',
         data: {
           breadcrumb: 'Edit',
-        }, 
-        component: EditCoursePageComponent,
+        },
+        loadChildren: () => import('./feature-modules/edit-course/edit-course.module').then(m => m.EditCourseModule),
         canActivate: [AuthGuard]
       }
     ]
   },
-  { 
+  {
     path: 'login',
     data: {
       breadcrumb: 'Login',
-    }, 
-    component: LoginPageComponent 
+    },
+    component: LoginPageComponent
   },
-  { 
-    path: '**', 
+  {
+    path: '**',
     component: NotFoundPageComponent
   }
 ];

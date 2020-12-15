@@ -31,5 +31,6 @@ export interface CoursesDTOSlice {
   hasNext?: boolean;
 }
 
+export type FetchCoursesBehavior = 'append' | 'set';
 export type RequiredCourseProps = Pick<Course, 'title' | 'description' | 'duration'>;
 export type OptionalCourseProps = Partial<Pick<Course, 'creationDate' | 'topRated'>>;

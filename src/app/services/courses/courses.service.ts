@@ -58,8 +58,8 @@ export class CoursesService {
     return this.http.get<CourseDTO>(this.cfg.course(id)).pipe(map(DTOToCourse));
   }
 
-  updateById(id: number, changes: CourseDTO): Observable<Course> {
-    return this.http.patch<CourseDTO>(this.cfg.course(id), JSON.stringify(changes)).pipe(map(DTOToCourse));
+  updateById(changes: CourseDTO): Observable<Course> {
+    return this.http.patch<CourseDTO>(this.cfg.course(changes.id), JSON.stringify(changes)).pipe(map(DTOToCourse));
   }
 
   deleteById(id: number): Observable<any> {

@@ -1,8 +1,6 @@
 import {
   Course,
-  CourseDTO,
-  OptionalCourseProps,
-  RequiredCourseProps
+  CourseDTO
 } from '../shared/interfaces/Course';
 
 // for mocking purposes, StackOverflow copy-paste
@@ -12,6 +10,8 @@ export function generateUID(): number {
 }
 
 export const courseToDTO = (payload: Course): CourseDTO => {
+  if (!payload) return null;
+
   const { id, title, description, duration, creationDate = new Date(), topRated = false } = payload;
   return {
     id,

@@ -6,8 +6,9 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthService } from '../../services/auth/auth.service';
 import { Course } from '../../shared/interfaces/course';
+import { Store } from '@ngrx/store';
+import { isLoggedIn } from '../../store/auth/auth.selectors';
 
 @Component({
   selector: 'app-course-card',
@@ -22,7 +23,7 @@ export class CourseCardComponent {
   delete = new EventEmitter<number>();
 
   constructor(
-    private authService: AuthService
+    private store: Store
   ) {}
 
   onDeleteClick(): void {
@@ -30,6 +31,6 @@ export class CourseCardComponent {
   }
 
   get allowModifying(): Observable<boolean> {
-    return this.authService.isAuthenticated();
+    return this.store.select(isLoggedIn);
   }
 }

@@ -1,10 +1,9 @@
 <div class="container">
     <div class="col-m row aln-center courses-actions">
-        <app-search-bar (termChange)="onTermChange($event)"></app-search-bar>
+        <app-search-bar></app-search-bar>
         <app-add-course *ngIf="(allowCreation | async)"></app-add-course>
     </div>
     <app-courses-list
-      [searchTerm]="searchTerm"
       orderByKey="creationDate"
       order="desc">
     </app-courses-list>

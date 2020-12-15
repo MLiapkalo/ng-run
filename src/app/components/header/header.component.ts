@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { UserInfo } from '../../shared/interfaces/User';
 import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { isLoggedIn, getUserFullName } from '../../store/auth/auth.selectors';
+import { logout } from '../../store/auth/auth.actions';
 
 @Component({
   selector: 'app-header',
@@ -11,21 +11,18 @@ import { Observable } from 'rxjs';
 })
 export class HeaderComponent {
   constructor(
-    private authService: AuthService,
-    private router: Router
+    private store: Store
   ) {}
 
   get isAuthenticated(): Observable<boolean> {
-    return this.authService.isAuthenticated();
+    return this.store.select(isLoggedIn);
   }
 
-  get userFullName(): string {
-    const userInfo: UserInfo = this.authService.getUserInfo();
-    return userInfo?.name ? `${userInfo.name.first} ${userInfo.name.last}` : '';
+  get userFullName(): Observable<string> {
+    return this.store.select(getUserFullName);
   }
 
   doLogout(): void {
-    this.authService.logout();
-    this.router.navigateByUrl('');
+    this.store.dispatch(logout());
   }
 }

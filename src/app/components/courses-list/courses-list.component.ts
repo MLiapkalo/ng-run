@@ -2,87 +2,84 @@ import {
   Component,
   OnInit,
   OnDestroy,
-  OnChanges,
   Input,
-  SimpleChanges
 } from '@angular/core';
-import { Course } from '../../shared/interfaces/course';
+import { Course, FetchCoursesBehavior } from '../../shared/interfaces/course';
 import { ListOrdering } from '../../shared/enums/listOrdering';
 import { CoursesService } from 'src/app/services/courses/courses.service';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { LoadingStateService } from 'src/app/services/loading-state/loading-state.service';
+import {skip, takeUntil} from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import {
+  deleteCourse,
+  resetPagination,
+  toNextPage,
+  computeStartPointer,
+  loadCourses
+} from '../../store/courses/courses.actions';
+import * as fromCourses from '../../store/courses/courses.selectors';
+import { getTerm } from '../../store/search';
 
 @Component({
   selector: 'app-courses-list',
   templateUrl: './courses-list.component.html',
   styleUrls: ['./courses-list.component.scss']
 })
-export class CoursesListComponent implements OnInit, OnDestroy, OnChanges {
-  private readonly initialStartPointer = 0;
-  private readonly initialPage = 1;
-
+export class CoursesListComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  private startPointer = this.initialStartPointer;
-  private page = this.initialPage;
-  private count = 5;
 
-  @Input()
-  searchTerm = '';
   @Input()
   order: ListOrdering = ListOrdering.Desc;
   @Input()
   orderByKey: keyof Course = 'creationDate';
 
-  hasNext = false;
-  list: Course[] = [];
+  hasNext: Observable<boolean> = this.store.select(fromCourses.getHasNextFlag);
+  list: Observable<Course[]> = this.store.select(fromCourses.getCoursesList);
+  isLoading: Observable<boolean> = this.store.select(fromCourses.getIsLoadingFlag);
+  getCoursesError: Observable<boolean> = this.store.select(fromCourses.getCoursesErrorFlag);
+  deleteCourseError: Observable<boolean> = this.store.select(fromCourses.deleteCourseErrorFlag);
+  searchTerm: Observable<string> = this.store.select(getTerm) as Observable<string>;
 
   constructor(
     private coursesService: CoursesService,
-    private loadingStateService: LoadingStateService
+    private store: Store
   ) {}
 
-  private fetchCoursesPage(append = false): void {
-    this.loadingStateService.start();
-    this.coursesService.getList({
-      start: this.startPointer,
-      count: this.count,
-      term: this.searchTerm
-    }).pipe(takeUntil(this.destroy$))
-      .subscribe({ 
-        next:({ list, hasNext }) => {
-          this.list = append ? [...this.list, ...list] : list;
-          this.hasNext = hasNext;
-          this.loadingStateService.finish();
-        },
-        error: err => {
-          console.error(err);
-          this.loadingStateService.finish()
-        }
-    });
+  private computeStart(): void {
+    this.store.dispatch(computeStartPointer());
   }
 
-  private get computedStart(): number {
-    return this.count * this.page + 1;
-  }
-
-  get isLoading(): Observable<boolean> {
-    return this.loadingStateService.isLoading();
+  private loadCourses(behavior: FetchCoursesBehavior): void {
+    this.store.dispatch(loadCourses({ behavior }));
   }
 
   private toNextPage(): void {
-    this.page++;
-    this.startPointer = this.computedStart;
+    this.store.dispatch(toNextPage());
   }
 
   private resetPagination(): void {
-    this.startPointer = this.initialStartPointer;
-    this.page = this.initialPage;
+    this.store.dispatch(resetPagination());
   }
 
   ngOnInit(): void {
-    this.fetchCoursesPage();
-    this.startPointer = this.computedStart;
+    this.loadCourses('set');
+    this.computeStart();
+
+    this.searchTerm.pipe(
+      skip(1),
+      takeUntil(this.destroy$)
+    ).subscribe(() => {
+      this.resetPagination();
+      this.loadCourses('set');
+    });
+
+    this.getCoursesError.pipe(takeUntil(this.destroy$)).subscribe(flag => {
+      if (flag) alert('Oops, can\'t retrieve courses');
+    });
+
+    this.deleteCourseError.pipe(takeUntil(this.destroy$)).subscribe(flag => {
+      if (flag) alert('Oops, unable to delete this course');
+    });
   }
 
   ngOnDestroy(): void {
@@ -90,34 +87,15 @@ export class CoursesListComponent implements OnInit, OnDestroy, OnChanges {
     this.destroy$.unsubscribe();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.hasOwnProperty('searchTerm') && !changes.searchTerm.firstChange) {
-      this.resetPagination();
-      this.fetchCoursesPage();
-      this.startPointer = this.computedStart;
-    }
-  }
-
   deleteCourse(id: number): void {
     if (confirm('Do you really want to delete this course?')) {
-      this.loadingStateService.start();
-      this.coursesService.deleteById(id)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: () => {
-            this.list = this.list.filter(({ id: courseId }) => courseId !== id);
-            this.loadingStateService.finish();
-          },
-          error: err => {
-            console.error(err);
-            this.loadingStateService.finish();
-          }
-        });
+      this.store.dispatch(deleteCourse({ data: id }));
     }
   }
 
   onLoadMore(): void {
-    this.fetchCoursesPage(true);
+    this.computeStart();
+    this.loadCourses('append');
     this.toNextPage();
   }
 }

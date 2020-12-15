@@ -1,21 +1,24 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoadingStateService {
-  private loadingSubj: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private loadingFlagSub: Subscription;
+  private loadingStateSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  observeFlag(loadingFlagObservable: Observable<boolean>): void {
+    this.loadingFlagSub = loadingFlagObservable.subscribe(value => {
+      this.loadingStateSubject.next(value);
+    });
+  }
+
+  leaveFlag(): void {
+    this.loadingFlagSub.unsubscribe();
+  }
 
   isLoading(): Observable<boolean> {
-    return this.loadingSubj.asObservable();
-  }
-
-  start(): void {
-    this.loadingSubj.next(true);
-  }
-
-  finish(): void {
-    this.loadingSubj.next(false);
+    return this.loadingStateSubject.asObservable();
   }
 }

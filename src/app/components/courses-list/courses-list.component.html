@@ -1,13 +1,13 @@
 <ul
-    *ngIf="list.length || hasNext; else noDataMessage"
+    *ngIf="(list | async ).length || (hasNext | async); else noDataMessage"
     class="courses-list">
-    <li class="courses-list__entry" *ngFor="let course of list | orderBy : orderByKey : order">
+    <li class="courses-list__entry" *ngFor="let course of (list | async ) | orderBy : orderByKey : order">
         <app-course-card
           [course]="course"
           (delete)="deleteCourse($event)"
         ></app-course-card>
     </li>
-    <li *ngIf="hasNext" class="courses-list__load card">
+    <li *ngIf="(hasNext | async)" class="courses-list__load card">
         <button
             (click)="onLoadMore()"
             class="button button--transparent button--hover-pointer">

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { exhaustMap, tap } from 'rxjs/operators';
 import { Credentials } from '../../shared/interfaces/credentials';
 import { ApiConfigService } from '../api-config/api-config.service';
@@ -16,7 +16,6 @@ export class AuthService {
     private cfg: ApiConfigService
   ) {}
 
-  private authSubj: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(!!this.getToken());
 
   private get AUTH_TOKEN_KEY(): string {
     return 'AUTH_TOKEN';
@@ -28,6 +27,10 @@ export class AuthService {
 
   get successLoginRedirect(): string {
     return '/courses';
+  }
+
+  get logoutRedirect(): string {
+    return '/';
   }
 
   login(payload: Credentials): Observable<UserInfo> {
@@ -42,14 +45,9 @@ export class AuthService {
     return this.http.get<User>(this.cfg.userInfo());
   }
 
-  saveToken = ({ token }: TokenResponse): void => {
-    localStorage.setItem(this.AUTH_TOKEN_KEY, token);
-    this.authSubj.next(true);
-  }
+  saveToken = ({ token }: TokenResponse): void => localStorage.setItem(this.AUTH_TOKEN_KEY, token);
 
-  getToken(): string | undefined {
-    return localStorage.getItem(this.AUTH_TOKEN_KEY);
-  }
+  getToken = (): string | undefined => localStorage.getItem(this.AUTH_TOKEN_KEY);
 
   saveUserInfo = ({ id, name }: User): void => {
     localStorage.setItem(this.USER_INFO_KEY, JSON.stringify({ id, name }));
@@ -63,10 +61,5 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.AUTH_TOKEN_KEY);
     localStorage.removeItem(this.USER_INFO_KEY);
-    this.authSubj.next(false);
-  }
-
-  isAuthenticated(): Observable<boolean> {
-    return this.authSubj.asObservable();
   }
 }
