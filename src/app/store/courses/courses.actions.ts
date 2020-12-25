@@ -38,3 +38,21 @@ export const setHasNextFlag = createAction(
 );
 
 export const computeStartPointer = createAction(types.ComputeStartPointer);
+
+export const loadSingleCourse = createAction(
+  types.LoadSingleCourse,
+  props<{ 
+    id: number,
+    useAsFormPrefill?: boolean
+  }>()
+);
+
+export const loadSingleCourseSuccess = createAction(
+  types.LoadSingleCourseSuccess,
+  props<{ 
+    data: Course,
+    useAsFormPrefill?: boolean
+  }>()
+);
+
+export const LoadSingleCourseFailure = createAction(types.LoadSingleCourseFailure);

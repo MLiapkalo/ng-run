@@ -23,7 +23,7 @@ export class CoursesEffects {
       withLatestFrom(
         this.store.select(fromCourses.getStart),
         this.store.select(fromCourses.getCount),
-        this.store.select(fromSearch.getTerm) as Observable<string>,
+        this.store.select(fromSearch.getTerm),
         ({ behavior = 'set' }, start, count, term) => ({
           behavior,
           params: { start, count, term }
@@ -40,6 +40,14 @@ export class CoursesEffects {
       actions.setHasNextFlag({ data: hasNext })
     ]),
     catchError(() => of(actions.loadCoursesFailure())),
+  ));
+
+  fetchSingleCourse$ = createEffect(() => this.actions$.pipe(
+    ofType(types.LoadSingleCourse),
+    switchMap(({ id, useAsFormPrefill }) => this.coursesService.getById(id).pipe(
+      map(data => actions.loadSingleCourseSuccess({ data, useAsFormPrefill })),
+      catchError(() => of(actions.LoadSingleCourseFailure()))
+    )),
   ));
 
   deleteCourse$ = createEffect(() => this.actions$.pipe(

@@ -1,7 +1,10 @@
 <div class="row aln-center duration-input">
     <input
         type="number"
-        [(ngModel)]="duration"
+        min="1"
+        (blur)="onTouched()"
+        [value]="value"
+        (input)="handleInput($event)"
         class="duration-input__field input" placeholder="Duration in mins">
-    <span class="duration-input__converted">{{ duration | duration }}</span>
+    <span class="duration-input__converted">{{ value | duration }}</span>
 </div>

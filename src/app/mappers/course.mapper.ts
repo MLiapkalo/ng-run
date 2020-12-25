@@ -12,25 +12,43 @@ export function generateUID(): number {
 export const courseToDTO = (payload: Course): CourseDTO => {
   if (!payload) return null;
 
-  const { id, title, description, duration, creationDate = new Date(), topRated = false } = payload;
+  const { 
+    id,
+    title,
+    description,
+    duration,
+    creationDate = new Date(),
+    topRated = false,
+    authors
+  } = payload;
   return {
     id,
     name: title,
     description,
     length: duration,
     date: creationDate.toString(),
-    isTopRated: topRated
+    isTopRated: topRated,
+    authors
   };
 };
 
 export const DTOToCourse = (dto: CourseDTO): Course => {
-  const { id, name, description, length, date = new Date(), isTopRated = false } = dto;
+  const { 
+    id,
+    name,
+    description,
+    length,
+    date = new Date(),
+    isTopRated = false,
+    authors
+  } = dto;
   return {
     id,
     title: name,
     description,
     duration: length,
     creationDate: new Date(date),
-    topRated: isTopRated
+    topRated: isTopRated,
+    authors
   };
 };

@@ -12,3 +12,7 @@ export const ResetPagination = '[Courses] Reset Pagination';
 export const ComputeStartPointer = '[Courses] Compute Start Pointer';
 
 export const SetHasNextFlag = '[Courses] Set Has Next Flag';
+
+export const LoadSingleCourse = '[Courses] Load Single Course';
+export const LoadSingleCourseFailure = '[Courses] Load Single Course Failure';
+export const LoadSingleCourseSuccess = '[Courses] Load Single Course Success';

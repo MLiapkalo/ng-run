@@ -3,3 +3,4 @@ export const LoginRequest = '[Auth] Request Login';
 export const SetUserInfo = '[Auth] Set User Info';
 export const LoginRequestFailure = '[Auth] Login Request Failure';
 export const Logout = '[Auth] Logout';
+export const ResetFlags = '[Auth] Reset flags';

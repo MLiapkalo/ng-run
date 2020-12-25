@@ -1,9 +1,12 @@
+import { Author } from './User';
+
 export interface Course {
   id: number;
   title: string;
   creationDate: Date;
   duration: number;
   description: string;
+  authors: Author[];
   topRated: boolean;
 }
 
@@ -13,11 +16,7 @@ export interface CourseDTO {
   date: string;
   length: number;
   description: string;
-  // optional for now
-  authors?: Array<{
-    id: number;
-    name: string;
-  }>;
+  authors: Author[];
   isTopRated: boolean;
 }
 

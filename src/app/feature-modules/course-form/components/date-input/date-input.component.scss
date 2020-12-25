@@ -1,1 +1,6 @@
 @import '../../../../shared/styles/inputs';
+@import '../../../../shared/styles/mixins';
+
+:host {
+    @include touchedErrorBorder;
+}

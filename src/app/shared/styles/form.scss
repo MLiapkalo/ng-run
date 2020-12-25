@@ -1,6 +1,7 @@
 @import './layout';
 @import './inputs';
 @import './cards';
+@import './mixins';
 
 .form {
     display: flex;
@@ -35,6 +36,12 @@
         }
     }
 
+    &__error {
+        margin: 5px 0;
+        font-size: 12px;
+        color: firebrick;
+    }
+
     &__label {
         font-size: .8rem;
         font-weight: bold;
@@ -51,5 +58,9 @@
 
     &__link, &__submit:not([disabled]) {
         cursor: pointer;
+    }
+
+    input, textarea {
+        @include touchedErrorBorder;
     }
 }

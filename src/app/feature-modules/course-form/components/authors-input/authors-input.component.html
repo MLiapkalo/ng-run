@@ -1,1 +1,31 @@
-<p>authors-input works!</p>
+<div class="authors-input">
+  <div class="authors-input__control authors-control">
+    <input
+      [formControl]="authorName"
+      (blur)="onTouched()"
+      class="authors-control__input input"
+      type="text">
+    <ul
+      *ngIf="authorSuggestions?.length"
+      class="authors-control__suggestions author-suggestions">
+      <li
+        class="author-suggestions__entry"
+        *ngFor="let suggestion of authorSuggestions"
+        (click)="assignAuthor(suggestion.id)">
+        {{ suggestion.name }}
+      </li>
+    </ul>
+  </div>
+  <ul
+    *ngIf="assignedAuthors.length"
+    class="authors-input__assigned assigned-authors">
+    <li
+      class="assigned-authors__entry"
+      *ngFor="let author of assignedAuthors"
+      (click)="discardAuthor(author.id)"
+      title="Click to discard">
+      {{ author.name }}
+      <span>&#x2716;</span>
+    </li>
+  </ul>
+</div>

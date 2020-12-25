@@ -1,5 +1,10 @@
 @import '../../../../shared/styles/inputs';
 @import '../../../../shared/styles/layout';
+@import '../../../../shared/styles/mixins';
+
+:host {
+    @include touchedErrorBorder;
+}
 
 .duration-input {
     &__converted {

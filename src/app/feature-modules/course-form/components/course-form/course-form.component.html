@@ -1,32 +1,62 @@
-<form class="form course-form" (submit)="onSubmit()">
+<form 
+  class="form course-form"
+  [formGroup]="courseForm"
+  (ngSubmit)="onSubmit()">
+    <input type="hidden" formControlName="id">
+    <input type="checkbox" formControlName="topRated" [hidden]="true">
     <label class="form__vertical-group">
         <span class="form__label">Title</span>
         <input
-          [ngModelOptions]="{standalone: true}"
-          [(ngModel)]="payload.name"
+          formControlName="title"
           class="input form__input"
+          maxlength="50"
           required>
+          <span 
+            class="form__error" 
+            *ngIf="courseForm.get('title').hasError('required') && courseForm.get('title').touched">
+            Course should have title
+          </span>
     </label>
     <label class="form__vertical-group">
         <span class="form__label">Descriptiion</span>
         <textarea
-          [ngModelOptions]="{standalone: true}"
-          [(ngModel)]="payload.description"
+          formControlName="description"
           class="input"
+          maxlength="500"
           required>
         </textarea>
+        <span 
+          class="form__error" 
+          *ngIf="courseForm.get('description').hasError('required') && courseForm.get('description').touched">
+          Course should have description
+      </span>
     </label>
     <label class="form__vertical-group">
         <span class="form__label">Duration</span>
-        <app-duration-input [(duration)]="payload.length"></app-duration-input>
+        <app-duration-input formControlName="duration"></app-duration-input>
+        <span 
+          class="form__error" 
+          *ngIf="courseForm.get('duration').hasError('min') && courseForm.get('duration').touched">
+          Course should have duration of at least 1 minute
+        </span>
     </label>
     <label class="form__vertical-group">
         <span class="form__label">Date</span>
-        <app-date-input [(date)]="payload.date"></app-date-input>
+        <app-date-input formControlName="creationDate"></app-date-input>
+        <span 
+          class="form__error" 
+          *ngIf="courseForm.get('creationDate').hasError('required') && courseForm.get('creationDate').touched">
+          Course should have creation date
+        </span>
     </label>
     <label class="form__vertical-group">
         <span class="form__label">Authors</span>
-        <app-authors-input></app-authors-input>
+        <app-authors-input formControlName="authors"></app-authors-input>
+        <span 
+          class="form__error" 
+          *ngIf="courseForm.get('authors').hasError('minListLength') && courseForm.get('authors').touched">
+          Course should have at least 1 author assigned
+        </span>
     </label>
     <div class="form__group row aln-center">
         <button
@@ -36,6 +66,7 @@
           Cancel
         </button>
         <button
+        *ngIf="courseForm.valid"
           class="form__submit button"
           type="submit">
           Save

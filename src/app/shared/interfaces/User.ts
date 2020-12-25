@@ -9,3 +9,8 @@ export interface UserInfo {
     last: string
   };
 }
+
+export interface Author {
+  id: number;
+  name: string;
+}

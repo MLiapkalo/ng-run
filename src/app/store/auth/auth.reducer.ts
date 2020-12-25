@@ -10,15 +10,16 @@ export interface State {
   user: UserInfo;
 }
 
-export const initialState: State = {
+const initialState: State = {
   isLoading: false,
   error: false,
   user: null
 };
 
+export const getInitialState: () => State = () => ({ ...initialState })
 
 export const reducer = createReducer(
-  initialState,
+  getInitialState(),
   on(actions.requestLogin, state => ({ ...state, isLoading: true })),
   on(actions.setUserInfo, (state, { data }) => ({
     ...state,
@@ -31,6 +32,11 @@ export const reducer = createReducer(
     isLoading: false,
     error: true
   })),
-  on(actions.logout, () => initialState)
+  on(actions.logout, () => getInitialState()),
+  on(actions.resetFlags, state => ({ 
+    ...state, 
+    isLoading: false,
+    error: false
+  }))
 );
 

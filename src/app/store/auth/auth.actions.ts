@@ -15,3 +15,5 @@ export const setUserInfo = createAction(
 export const loginRequestFailure = createAction(types.LoginRequestFailure);
 
 export const logout = createAction(types.Logout);
+
+export const resetFlags = createAction(types.ResetFlags);

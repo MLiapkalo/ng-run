@@ -1,6 +1,7 @@
-import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { fromEvent, Observable } from 'rxjs';
-import { map, distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
+import { FormControl } from '@angular/forms';
+import { map, distinctUntilChanged, debounceTime, takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { getTerm, setSearchTerm } from '../../store/search';
 
@@ -9,11 +10,9 @@ import { getTerm, setSearchTerm } from '../../store/search';
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.scss']
 })
-export class SearchBarComponent implements AfterViewInit {
-  term: Observable<string> = this.store.select(getTerm);
-
-  @ViewChild('searchInput')
-  private searchInputEl: ElementRef<HTMLInputElement>;
+export class SearchBarComponent implements OnInit, OnDestroy {
+  private destroy: Subject<boolean> = new Subject<boolean>();
+  searchInput = new FormControl('');
 
   constructor(
     private store: Store
@@ -23,12 +22,20 @@ export class SearchBarComponent implements AfterViewInit {
     return value.toLowerCase().trim();
   }
 
-  ngAfterViewInit(): void {
-    fromEvent(this.searchInputEl.nativeElement, 'keyup').pipe(
+  ngOnInit(): void {
+    this.store.select(getTerm)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(term => this.searchInput.setValue(term));
+    
+    this.searchInput.valueChanges.pipe(
+      takeUntil(this.destroy),
       debounceTime(500),
-      map(evt => (evt.target as HTMLInputElement).value),
       map(this.normalize),
       distinctUntilChanged()
     ).subscribe(data => this.store.dispatch(setSearchTerm({ data })));
+  }
+
+  ngOnDestroy(): void {
+    this.destroy.next(true);
   }
 }

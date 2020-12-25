@@ -1,45 +1,25 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { CourseDTO } from 'src/app/shared/interfaces/Course';
-import { LoadingStateService } from 'src/app/services/loading-state/loading-state.service';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { getCourseById } from '../../../../store/courses/courses.selectors';
-import * as fromCourseForm from '../../../course-form/store/course-form.selectors';
-import { Observable } from 'rxjs';
-import { first, map, switchMap, tap } from 'rxjs/operators';
-import { courseToDTO } from '../../../../mappers/course.mapper';
+import { actions as coursesActions } from '../../../../store/courses';
+import { selectors as fromRouter } from '../../../../store/router';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-edit-course-page',
   templateUrl: './edit-course-page.component.html',
   styleUrls: ['./edit-course-page.component.scss']
 })
-export class EditCoursePageComponent implements OnInit, OnDestroy {
-  course: CourseDTO;
-
+export class EditCoursePageComponent implements OnInit {
   constructor(
-    private route: ActivatedRoute,
     private store: Store,
-    private loadingStateService: LoadingStateService
   ) {}
 
   ngOnInit(): void {
-    this.loadingStateService.observeFlag(
-      this.store.select(fromCourseForm.getIsLoadingFlag)
-    );
-
-    this.route.params.pipe(
-      first(),
+    this.store.select(fromRouter.getParams).pipe(
       map(({ id }) => +id),
-      switchMap(id => this.store.select(getCourseById, { id })),
-    ).subscribe((course) => this.course = courseToDTO(course));
-  }
-
-  get isLoading(): Observable<boolean> {
-    return this.loadingStateService.isLoading();
-  }
-
-  ngOnDestroy(): void {
-    this.loadingStateService.leaveFlag();
+      filter(id => !isNaN(id))
+    ).subscribe(id => this.store.dispatch(
+      coursesActions.loadSingleCourse({ id, useAsFormPrefill: true })
+    ))
   }
 }

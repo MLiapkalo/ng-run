@@ -4,6 +4,12 @@
     background-color: $color;
 }
 
+@mixin touchedErrorBorder {
+    &.ng-invalid.ng-touched {
+        border: 1px solid firebrick;
+    }
+}
+
 @mixin inherit-text-props {
     font-size: inherit;
     font-family: inherit;

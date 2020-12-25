@@ -23,9 +23,9 @@ export class AuthEffects {
     ofType(types.LoginRequest),
     exhaustMap(({ data: credentials }) => this.authService.login(credentials).pipe(
       map(({ id, name }) => actions.setUserInfo({ data: { id, name } })),
+      tap(() => this.router.navigateByUrl(this.authService.successLoginRedirect)),
       catchError(() => of(actions.loginRequestFailure())
     ))),
-    tap(() => this.router.navigateByUrl(this.authService.successLoginRedirect))
   ));
 
   logout$ = createEffect(() => this.actions$.pipe(

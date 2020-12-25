@@ -21,7 +21,7 @@ export const isLoggedIn = createSelector(
 
 export const getUser = createSelector(
   getAuthFeature,
-  ({ user = {} as UserInfo }: AuthState) => user
+  ({ user }: AuthState) => user
 );
 
 export const getUserId = createSelector(
@@ -31,5 +31,5 @@ export const getUserId = createSelector(
 
 export const getUserFullName = createSelector(
   getUser,
-  ({ name }: UserInfo) => name ? `${name.first} ${name.last}` : ''
+  (user: UserInfo) => user ? `${user.name.first} ${user.name.last}` : ''
 );

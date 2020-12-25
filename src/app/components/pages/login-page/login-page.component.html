@@ -1,12 +1,15 @@
 <div class="container full-height">
     <div class="row aln-center jst-center">
-        <form class="form login-form card" (submit)="onLoginSubmit()">
+        <form 
+            class="form login-form card" 
+            (ngSubmit)="onLoginSubmit()"
+            [formGroup]="loginForm"
+        >
             <h3 class="form__header">Login</h3>
             <label class="form__vertical-group">
                 <span class="form__label">E-mail</span>
                 <input
-                    [(ngModel)]="login"
-                    [ngModelOptions]="{ standalone: true }"
+                    formControlName="login"
                     class="input form__input"
                     required
                     placeholder="Enter email">
@@ -15,8 +18,7 @@
                 <span class="form__label">Password</span>
                 <input
                     type="password"
-                    [(ngModel)]="password"
-                    [ngModelOptions]="{ standalone: true }"
+                    formControlName="password"
                     class="input form__input"
                     required
                     placeholder="Enter password">

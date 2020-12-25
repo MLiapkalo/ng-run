@@ -1,1 +1,8 @@
-<input type="date" [(ngModel)]="date" class="input" placeholder="Creation date">
+<input 
+    type="date" 
+    [value]="value"
+    (blur)="onTouched()"
+    (input)="handleInput($event)" 
+    class="input" 
+    placeholder="Creation date"
+>
